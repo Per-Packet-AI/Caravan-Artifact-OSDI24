@@ -1,0 +1,14 @@
+[project]
+name = "caravan"
+version = "0.0.1"
+dependencies = [
+    "openai==0.28.0",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "scapy",
+    "scikit-learn",
+    "matplotlib",
+    "pandas",
+    "numpy",
+]

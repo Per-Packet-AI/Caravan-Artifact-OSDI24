@@ -1,0 +1,31 @@
+diff --git a/script/build.tcl b/script/build.tcl
+index 85c4236..2a14ced 100644
+--- a/script/build.tcl
++++ b/script/build.tcl
+@@ -374,11 +374,12 @@ set_property top $top [get_property srcset [current_run]]
+ read_xdc -unmanaged ${constr_dir}/${board}/pins.xdc
+ read_xdc -unmanaged ${constr_dir}/${board}/timing.xdc
+ read_xdc ${constr_dir}/${board}/general.xdc
++read_xdc ${constr_dir}/caravan_constr.xdc
+ 
+ # Implement design
+ if {$impl} {
+     update_compile_order -fileset sources_1
+-    _do_impl $jobs {"Vivado Implementation Defaults"}
++    _do_impl $jobs {"Performance_NetDelay_low"}
+ }
+ 
+ if {$post_impl} {
+diff --git a/constr/caravan_constr.xdc b/constr/caravan_constr.xdc
+new file mode 100644
+index 0000000..0dbcde1
+--- /dev/null
++++ b/constr/caravan_constr.xdc
+@@ -0,0 +1,7 @@
++create_pblock pblock_1
++add_cells_to_pblock [get_pblocks pblock_1] [get_cells -quiet [list {cmac_port[0].cmac_subsystem_inst/cmac_wrapper_inst/cmac_inst/inst/i_cmac_usplus_0_axi4_lite_if_wrapper/i_cmac_usplus_0_axi4_lite_reg_map}]]
++resize_pblock [get_pblocks pblock_1] -add {SLICE_X20Y487:SLICE_X90Y525}
++resize_pblock [get_pblocks pblock_1] -add {DSP48E2_X2Y196:DSP48E2_X11Y209}
++resize_pblock [get_pblocks pblock_1] -add {RAMB18_X2Y196:RAMB18_X5Y209}
++resize_pblock [get_pblocks pblock_1] -add {RAMB36_X2Y98:RAMB36_X5Y104}
++resize_pblock [get_pblocks pblock_1] -add {URAM288_X0Y132:URAM288_X0Y139}
