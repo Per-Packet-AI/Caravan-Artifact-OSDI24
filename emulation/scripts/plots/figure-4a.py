@@ -73,6 +73,6 @@ ax.grid(True, which='both', axis='y', linestyle='--', linewidth=0.5)
 plt.tight_layout()
 
 # Save the plot
-if not os.path.exists(f"{caravan_home}/scripts/figures"):
+if not os.path.exists(f"{caravan_home}/emulation/scripts/figures"):
     os.makedirs(f"{caravan_home}/emulation/scripts/figures")
 plt.savefig(f"{caravan_home}/emulation/scripts/figures/figure-4a.png")

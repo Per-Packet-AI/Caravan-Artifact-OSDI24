@@ -383,19 +383,17 @@ def continuous_retrain(args):
             if args.labeler_type == "LLM":
                 logging.info("using LLM for labeling this window")
                 valid_labels = None
+                
                 # call LLM to obtain appropriate labels
-                try:
-                    valid_labels, api_response, tokens, price = labeler.label(online_learning_raw_features)
-                    valid_labels = torch.tensor([float(k) for k in valid_labels]).cuda()
-                except:
-                    import pdb; pdb.set_trace()
                 while valid_labels is None or valid_labels.shape[0] != gt_labels.shape[0]:
-                    logging.info("resend api request due to wrong output formatting")
+                    logging.info("labeling with LLMs...")
                     try:
                         valid_labels, api_response, tokens, price = labeler.label(online_learning_raw_features)
                         valid_labels = torch.tensor([float(k) for k in valid_labels]).cuda()
                     except:
-                        import pdb; pdb.set_trace()
+                        logging.info("resend api request due to wrong output formatting")
+                        continue
+                
                 valid_features = online_learning_features
                 llm_total_tokens += tokens
                 llm_total_dollars += price
